@@ -1,0 +1,165 @@
+:root {
+     --bluish: #0a0e13;
+     --purplish: #655c64;
+     --active: #9fffa7;
+}
+
+* {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+}
+
+body {
+     user-select: none;
+     background: linear-gradient(var(--bluish), var(--purplish));
+}
+
+#board {
+     display: grid;
+     grid-template-columns: repeat(10, 1fr);
+     grid-template-rows: repeat(10, 1fr);
+     place-items: center;
+     width: 500px;
+     height: 500px;
+     border: 1px solid #000;
+}
+
+.square {
+     display: grid;
+     grid-template: 1fr 1fr / 1fr 1fr;
+     place-items: center;
+
+     width: 100%;
+     height: 100%;
+     border: .5px solid #000;
+     position: relative;
+     /* later dotted */
+}
+.token-container {
+     display: flex;
+     flex-direction: column;
+     gap: 10px;
+     justify-content: center;
+     align-items: center;
+     border: 1px solid #000;
+     width: 360px;
+     position: relative;
+     /* height: 50px; */
+}
+.token-container > .token {
+     position: relative;
+     width: 50px;
+     height: 50px;
+     border-radius: 50%;
+     background-color: #000;
+     border: none;
+     margin: 0 auto;
+}
+
+.token {
+     width: 100%;
+     height: 100%;;
+     border-radius: 50%;
+     background-color: #000;
+     border: none;
+     position: absolute;
+}
+.token:hover {
+     cursor: pointer;
+     transform: scale(1.1);
+     transition: all 0.3s ease-in-out;
+}
+.token:active {
+     transform: scale(0.9);
+     transition: all 0.3s ease-in-out;
+}
+.token.active {
+     transition: all 0.3s ease-in-out;
+     border: 1px solid #000;
+}
+#red {
+     background-color: rgb(255, 94, 0);
+}
+#blue {
+     background-color: rgb(98, 0, 255);
+}
+#yellow {
+     background-color: rgb(157, 255, 0);
+}
+#green {
+     background-color: rgb(0, 128, 85);
+}
+
+.dice {
+     color: #fff;
+     border: none;
+     background-color: #000;
+     width: 50px;
+     height: 50px;
+     border-radius: 50%;
+}
+
+/*? toggle */
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
