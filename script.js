@@ -80,7 +80,17 @@ function stackTokens(indexes) {
      });
 }
 
+function showClimbers (squareIndexes) {
+     squareIndexes.forEach(index => {
+          let square = document.querySelector(`div[place-index='${index}']`);
+          let climber = document.createElement("img");
+          climber.src = "https://Kwshal.github.io/SnL/img/climber.png";
+          square.appendChild(climber);
+     });
+}
 
+showClimbers([8, 14, 26,19, 23, 37, 45,49, 53, 67, 75]);
+     
 
 
 
