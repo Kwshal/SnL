@@ -47,11 +47,15 @@ function moveToken(dice) {
 
 function checkWin(squareIndex) {
      if (squareIndex === squares.length) {
+          
           document.getElementById("winner").innerText = `${currentPlayer.color} wins!`;
           currentPlayer.token.classList.remove("active");
-          // alert(`${currentPlayer.color} wins!`);
+          let crown = document.createElement("img");
+          crown.id = "crown";
+          currentPlayer.token.appendChild(crown);
+          document.getElementById("crown").src = "https://Kwshal.github.io/SnL/img/win.png"; 
      } else {
-          nextPlayer();
+          // nextPlayer();
      }
 }
 
