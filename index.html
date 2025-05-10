@@ -12,7 +12,7 @@
 </head>
 
 <body>
-     <h1>Snake & Ladders</h1>
+     <h1>No Snake & No Ladders</h1>
      <p id="current-player"></p><br>
      <p id="winner"></p>
      <div id="board">
@@ -162,37 +162,15 @@
           <div class="square" place-index="9">9</div>
           <div class="square" place-index="10">10</div>
 
-     </div>
-     <div class="token-container">
+     </div><br>
+     <div class="bot-container">
+          <span class="bot" id="bot-red"> </span>
+          <span class="bot" id="bot-blue"> </span>
+          <span class="bot" id="bot-yellow"> </span>
+          <span class="bot" id="bot-green"></span>
           <button class="dice" onclick="rollDice()">6</button>
-          <span at="1" class="token" id="red">
-               <label class="switch">
-                    <input type="checkbox">
-                    <span class="slider round"></span>
-               </label>
-          </span>
-          <span at="1" class="token" id="blue">
-               <label class="switch">
-                    <input type="checkbox">
-                    <span class="slider round"></span>
-               </label>
-
-          </span>
-          <span at="1" class="token" id="yellow">
-               <label class="switch">
-                    <input type="checkbox">
-                    <span class="slider round"></span>
-               </label>
-
-          </span>
-          <span at="1" class="token" id="green">
-               <label class="switch">
-                    <input type="checkbox">
-                    <span class="slider round"></span>
-               </label>
-          </span>
-     </div>
-     <button id="reset" onclick="resetGame()">Reset</button>
+     </div><br>
+     <button id="start-reset">Start</button>
 </body>
 
 </html>

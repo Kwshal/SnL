@@ -1,5 +1,5 @@
 :root {
-     --active: #9fffa7;
+     --active: #61c48d;
      --red: #ff662a;
      --yellow: #ffa22a;
      --green: #82ac26;
@@ -13,6 +13,7 @@
 }
 
 body {
+     padding: 5px;
      user-select: none;
      font-family: "roboto", sans-serif;
      font-weight: 600;
@@ -24,12 +25,12 @@ body {
      grid-template-columns: repeat(10, 1fr);
      grid-template-rows: repeat(10, 1fr);
      place-items: center;
-     width: min(500px,100vw);
+     width: min(500px, 100vw);
      /* height: min(500px,100vw); */
      aspect-ratio: 1/1;
      background-color: #777;
      gap: .5px;
-     /* border: 1px solid #000; */
+     border: 5px solid #ffffff;
 }
 
 .square {
@@ -43,6 +44,7 @@ body {
      background-color: #fff;
      /* later dotted */
 }
+
 /* .square:has(.token) {
      background-color: var(--active);
 } */
@@ -50,18 +52,18 @@ body {
      /* background-color: var(--active); */
      color: #ffffff;
 }
-.token-container {
+
+.bot-container {
+     width: fit-content;
      display: flex;
-     flex-direction: column;
-     gap: 10px;
+     gap: 0.4rem;
+     justify-content: left;
+}
+
+.bot {
+     display: flex;
      justify-content: center;
      align-items: center;
-     border: 1px solid #000;
-     width: 360px;
-     position: relative;
-     /* height: 50px; */
-}
-.token-container > .token {
      position: relative;
      width: 50px;
      height: 50px;
@@ -69,6 +71,8 @@ body {
      background-color: #000;
      border: none;
      margin: 0 auto;
+     font-weight: 600;
+     
 }
 
 .token {
@@ -82,7 +86,34 @@ body {
      border: none;
      position: absolute;
      overflow: hidden;
+     transition: all 0.3s ease-out;
+     z-index: 4;
 }
+
+#bot-red {
+     border: 1px solid var(--red);
+     background-color: transparent;
+     color: var(--red);
+}
+
+#bot-blue {
+     border: 1px solid var(--blue);
+     background-color: transparent;
+     color: var(--blue);
+}
+
+#bot-yellow {
+     border: 1px solid var(--yellow);
+     background-color: transparent;
+     color: var(--yellow);
+}
+
+#bot-green {
+     border: 1px solid var(--green);
+     background-color: transparent;
+     color: var(--green);
+}
+
 .token img {
      width: 105%;
      height: 105%;
@@ -91,29 +122,37 @@ body {
      background-color: transparent;
      border-radius: 50%;
 }
+
 .token:hover {
      cursor: pointer;
      transform: scale(1.1);
      transition: all 0.3s ease-in-out;
 }
+
 .token:active {
      transform: scale(0.9);
      transition: all 0.3s ease-in-out;
 }
+
 .token.active {
-     transition: all 0.3s ease-in-out;
+     transition: scale 0.3s ease-in-out;
      border: 1px solid #000;
      z-index: 2;
+     box-shadow: 0 0 10px #000;
 }
+
 #red {
      background-color: var(--red);
 }
+
 #blue {
      background-color: var(--blue);
 }
+
 #yellow {
      background-color: var(--yellow);
 }
+
 #green {
      background-color: var(--green);
 }
@@ -126,11 +165,20 @@ body {
      background-color: transparent;
      border: none;
 }
+
+.square[place-index="81"],
+.square[place-index="31"] {
+     text-decoration: underline;
+     text-underline-offset: 6px;
+     text-decoration-thickness: 4px;
+     text-decoration-color: var(--active);
+}
+
 #crown {
      width: 70%;
      height: 70%;
      position: absolute;
-     z-index: 1;
+     z-index: 7;
      background-color: transparent;
      border-radius: 50%;
 }
@@ -142,8 +190,48 @@ body {
      width: 50px;
      height: 50px;
      border-radius: 50%;
+     margin-left: 1rem;
 }
 
 .climber {
      background-color: #000;
+}
+
+#current-player {
+     text-align: center;
+}
+
+h1 {
+     font-size: 2rem;
+     color: #000;
+     text-align: center;
+}
+
+#declimb {
+     filter: hue-rotate(120deg);
+}
+
+/* #climber {
+     filter: hue-rotate(120deg);
+} */
+
+
+#start-reset {
+     background-color: #ff6666;
+     color: #fff;
+     border: none;
+     width: 70px;
+     height: 35px;
+     border-radius: 5px;
+     cursor: pointer;
+     font-size: 1rem;
+     transition: background-color 0.3s ease;
+}
+
+#start-reset:hover {
+     background-color: #ff4d4d;
+}
+
+#start-reset:active {
+     background-color: #cc0000;
 }
