@@ -80,16 +80,27 @@ function stackTokens(indexes) {
      });
 }
 
-function showClimbers (squareIndexes) {
+function criticalSquares(squareIndexes, type, scale = 1, direction = 0) {
      squareIndexes.forEach(index => {
           let square = document.querySelector(`div[place-index='${index}']`);
-          let climber = document.createElement("img");
-          climber.src = "https://Kwshal.github.io/SnL/img/climber.png";
-          square.appendChild(climber);
+          let special = document.createElement("img");
+          special.src = `https://Kwshal.github.io/SnL/img/${type}.png`;
+          special.id = type;
+          special.classList.add("special");
+          special.style.transform = `rotate(${direction}deg) scale(${scale})`;
+          square.appendChild(special);
      });
 }
 
-showClimbers([8, 14, 26,19, 23, 37, 45,49, 53, 67, 75]);
+criticalSquares([83], "swapper", 1.1);
+criticalSquares([3,88], "doubler", 1);
+criticalSquares([10,60], "jumper", 1);
+criticalSquares([27], "twicer", 0.9);
+criticalSquares([76], "twicer", 0.9, 180);
+criticalSquares([97,85,75,67], "climber", 1, 45);
+criticalSquares([5,15,52,34,48], "climber", 1, -45);
+criticalSquares([37,44,57,64], "climber", 1, 90);
+criticalSquares([22,40], "climber", 1, -135);
      
 
 

@@ -119,8 +119,8 @@ body {
 }
 
 .square img {
-     width: 40%;
-     height: 40%;
+     width: 60%;
+     height: 60%;
      position: absolute;
      z-index: 1;
      background-color: transparent;
