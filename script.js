@@ -32,7 +32,7 @@ let i = Math.floor(Math.random() * 4);
 let currentPlayer = [red, blue, yellow, green][i];
 
 function init() {
-     console.log("initialized");
+     // console.log("initialized");
      let startSquare = document.querySelector("div[place-index='1']");
      [red, blue, yellow, green].forEach(color => {
           startSquare.appendChild(color.token);
@@ -44,10 +44,11 @@ function init() {
      if (currentPlayer.bot || currentPlayer.token.classList.contains("bot")) {
           console.log("bot");
           rollDice();
-          console.log("bot rolled");
-     } else {
-          console.log("human");
-     }
+          // console.log("bot rolled");
+     } 
+     // else {
+     //      console.log("human");
+     // }
      // tokens.forEach(token => {
      //      token.remove();
      // });
@@ -76,7 +77,7 @@ function makeBots(tokenColors) {
                botToken.token.innerText = "";
           }
           // });
-          console.log(botColor, botIsActive, botToken);
+          // console.log(botColor, botIsActive, botToken);
      });
 }
 
