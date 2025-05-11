@@ -3,11 +3,13 @@ let squares = [...document.querySelectorAll(".square")];
 let bots = [...document.querySelectorAll(".bot")];
 let botContainer = document.querySelector(".bot-container");
 let startReset = document.getElementById("start-reset");
+let tokens = [...document.querySelectorAll(".token")];
+let dice = document.querySelector(".dice");
 
 bots.forEach(bot => {
      bot.addEventListener("click", () => {
-          bot.innerHTML = "B" ? "" : "B"; //? hereeeeee
-          bot.classList.add("bot-active");
+          bot.innerHTML === "Bot" ? bot.innerHTML = "" : bot.innerHTML = "Bot"; //? hereeeeee
+          bot.classList.contains("bot-active") ? bot.classList.remove("bot-active") : bot.classList.add("bot-active");
      });
 });
 
@@ -30,28 +32,51 @@ let i = Math.floor(Math.random() * 4);
 let currentPlayer = [red, blue, yellow, green][i];
 
 function init() {
+     console.log("initialized");
      let startSquare = document.querySelector("div[place-index='1']");
      [red, blue, yellow, green].forEach(color => {
           startSquare.appendChild(color.token);
+          // console.log("appended", color.color);
      });
      currentPlayer.token.classList.add("active");
      makeBots([red, blue, yellow, green]);
      document.getElementById("current-player").innerText = `Current Player: ${currentPlayer.color}`;
+     if (currentPlayer.bot || currentPlayer.token.classList.contains("bot")) {
+          console.log("bot");
+          rollDice();
+          console.log("bot rolled");
+     } else {
+          console.log("human");
+     }
+     // tokens.forEach(token => {
+     //      token.remove();
+     // });
+
+     bots.forEach(bot => bot.style.display = "none");
+     dice.style.display = "block";
+
      // document.querySelector(".dice").innerText = `${currentPlayer.color}`;
 }
 
-function makeBots(colors) {
-     colors.forEach(color => {
-          if (color.token.classList.contains("bot-active")) {
-               color.token.classList.add("bot");
-               color.bot = true;
-               color.token.innerText = "B";
-               color.token.style.pointerEvents = "none";
-          } else {
-               color.token.classList.remove("bot");
-               color.bot = false;
-               color.token.innerText = "";
+function makeBots(tokenColors) {
+     bots.forEach(bot => {
+          let botColor = bot.getAttribute("color");
+          let botToken = tokenColors.find(color => color.color === botColor);
+          let botIsActive = bot.classList.contains("bot-active");
+
+          // tokenColors.forEach(color => {
+          if (botToken && botIsActive) {
+               botToken.bot = true;
+               botToken.token.classList.add("bot");
+               botToken.token.innerText = "B";
           }
+          else {
+               botToken.bot = false;
+               botToken.token.classList.remove("bot");
+               botToken.token.innerText = "";
+          }
+          // });
+          console.log(botColor, botIsActive, botToken);
      });
 }
 
@@ -60,37 +85,41 @@ startReset.addEventListener("click", () => {
           startReset.innerText = "Reset";
           init();
      } else {
-          resetGame();
           startReset.innerText = "Start";
+          resetGame();
      }
 });
 
 function rollDice() {
-     let dice = Math.floor(Math.random() * 6) + 1;
-     document.querySelector(".dice").innerText = `${currentPlayer.color} ${dice}`;
-     moveToken(dice);
+     let diceNumber = Math.floor(Math.random() * 6) + 1;
+     dice.innerText = `${currentPlayer.color} ${diceNumber}`;
+     moveToken(diceNumber);
+     // console.log("rolled", diceNumber);
 }
 
-function moveToken(dice) {
+function moveToken(diceNumber) {
      let token = currentPlayer.token;
-     let anotherTurn = false;
+     // let anotherTurn = false;
      token.classList.add("active");
      token.style.boxShadow = `0 0 10px var(--${token.id})`;
      let squareIndex = +token.parentElement.getAttribute("place-index");
      let currentSquare = document.querySelector(`div[place-index='${squareIndex}']`);
-     let newSquareIndex = (squareIndex + dice > squares.length) ? squareIndex : squareIndex + dice;
+     let newSquareIndex = (squareIndex + dice > squares.length) ? squareIndex : squareIndex + diceNumber;
      let newSquare = document.querySelector(`div[place-index='${newSquareIndex}']`);
      token.style.scale = 0;
+     dice.style.pointerEvents = "none";
      setTimeout(() => {
           newSquare.appendChild(token);
           token.style.scale = 1;
-          checkSpecial(currentSquare, newSquare);
+          checkSpecial(currentSquare, newSquare, diceNumber);
+          anotherTurn = checkSpecial(currentSquare, newSquare, diceNumber);
           checkWin(newSquareIndex, anotherTurn);
-     }, 400);
+          dice.style.pointerEvents = "all";
+     }, 200);
      // stackTokens([squareIndex, newSquareIndex]);
 }
 
-function checkSpecial(currentSquare, square) {
+function checkSpecial(currentSquare, square, diceNumber) {
      let special = square.querySelector(".special");
      if (special) {
           let sendTo = special.getAttribute("send-to");
@@ -101,9 +130,13 @@ function checkSpecial(currentSquare, square) {
           } else {
                let specialType = special.id;
                if (specialType === "doubler") {
-                    let sendToSquare = document.querySelector(`div[place-index='${+special.getAttribute("send-to") * 2}']`);
+                    // console.log(special.getAttribute("send-to") ,+special.getAttribute("send-to") + diceNumber);
+                    let sendToSquare = document.querySelector(`div[place-index='${diceNumber * 2}']`);
+                    // console.log(sendToSquare, diceNumber);
                     sendToSquare.appendChild(currentPlayer.token);
                } else if (specialType === "twicer") {
+                    console.log(`${currentPlayer.color} rolled a twicer`);
+                    if (currentPlayer.token.classList.contains("bot")) rollDice();
                     return true;
                } else if (specialType === "swapper") {
                     let lastToken = getLastTokenPosition();
@@ -124,24 +157,25 @@ function getLastTokenPosition() {
 
 function checkWin(squareIndex, anotherTurn) {
      if (squareIndex === squares.length) {
-
+          dice.style.pointerEvents = "none";
           document.getElementById("winner").innerText = `${currentPlayer.color} wins!`;
           currentPlayer.token.classList.remove("active");
-          // let crown = document.createElement("img");
-          // crown.id = "crown";
-          // currentPlayer.token.appendChild(crown);
-          // document.getElementById("crown").src = "https://Kwshal.github.io/SnL/img/win.png"; 
      } else {
-          // updateLastTokenPosition();
           !anotherTurn && nextPlayer();
      }
 }
 
 function resetGame() {
      bots.forEach(bot => {
+          bot.style.display = "flex";
           bot.innerHTML = "";
      });
-     init();
+     tokens.forEach(token => {
+          token.remove();
+     });
+     dice.style.display = "none";
+     document.getElementById("winner").innerText = "";
+     // init();
 }
 
 function nextPlayer() {
@@ -149,6 +183,11 @@ function nextPlayer() {
      i = (i + 1) % 4;
      currentPlayer = [red, blue, yellow, green][i];
      document.getElementById("current-player").innerText = `Current Player: ${currentPlayer.color}`;
+     if (currentPlayer.bot) {
+          setTimeout(() => {
+               rollDice();
+          }, 1000);
+     }
 }
 
 function stackTokens(indexes) {
